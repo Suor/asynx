@@ -20,9 +20,9 @@ npm install asynx
 
 ```js
 async.waterfall([
-    // load url and get response and body of request
+    // get response and body of an url
     async.apply(request.get, url),
-    // throw away reponse and pass body to fs.writeFile
+    // throw away response and pass body to fs.writeFile
     async.shift,
     // write body to a file
     async.apply(fs.writeFile, filename)
