@@ -4,6 +4,8 @@ Adds several utilities on top of [async.js](https://github.com/caolan/async). Ai
 
 ```js
 var async = require('asynx');
+// or be more explicit
+var asynx = require('asynx');
 ```
 
 
@@ -21,9 +23,9 @@ npm install asynx
 Hijack callback into returning predefined result(s). Error is propagated unchanged.
 
 ```js
-async.waterfall([
+asynx.waterfall([
     // get response and body of an url
-    async.apply(request.get, url),
+    asynx.apply(request.get, url),
     // write body to file, but return http response from waterfall
     function (response, body, callback) {
         fs.writefile(filename, asynx.return(response, callback))
@@ -35,13 +37,13 @@ async.waterfall([
 ### asynx.shift
 
 ```js
-async.waterfall([
+asynx.waterfall([
     // get response and body of an url
-    async.apply(request.get, url),
+    asynx.apply(request.get, url),
     // throw away response and pass body to fs.writeFile
-    async.shift,
+    asynx.shift,
     // write body to a file
-    async.apply(fs.writeFile, filename)
+    asynx.apply(fs.writeFile, filename)
 ], callback)
 ```
 
@@ -52,11 +54,11 @@ async.waterfall([
 function cachedGet(url, callback) {
     var filename = __dirname + '/cache/' + url.replace(/\//g, '#');
 
-    async.if(
-        async.apply(fs.exists, filename),
-        async.apply(fs.readFile, filename),
-        async.apply(async.waterfall, [
-            async.apply(request, url),
+    asynx.if(
+        asynx.apply(fs.exists, filename),
+        asynx.apply(fs.readFile, filename),
+        asynx.apply(asynx.waterfall, [
+            asynx.apply(request, url),
             function (response, body, callback) {
                 fs.writeFile(filename, body, function (error) {
                     callback(error, body);
@@ -75,7 +77,7 @@ function cachedGet(url, callback) {
 function cachedGet(url, callback) {
     var filename = __dirname + '/cache/' + url.replace(/\//g, '#');
 
-    async.manual({
+    asynx.manual({
         // always starts from 'start' state
         start: function (next) {
             fs.exists(filename, function (exists) {
