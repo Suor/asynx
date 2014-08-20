@@ -16,6 +16,22 @@ npm install asynx
 
 ## Usage
 
+### asynx.return(results..., callback)
+
+Hijack callback into returning predefined result(s). Error is propagated unchanged.
+
+```js
+async.waterfall([
+    // get response and body of an url
+    async.apply(request.get, url),
+    // write body to file, but return http response from waterfall
+    function (response, body, callback) {
+        fs.writefile(filename, asynx.return(response, callback))
+    }
+], callback)
+```
+
+
 ### asynx.shift
 
 ```js

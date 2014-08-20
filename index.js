@@ -33,4 +33,16 @@ asynx.manual = function (states, callback) {
 };
 
 
+asynx.return = function() {
+    var args = [].slice.call(arguments);
+    var callback = args.pop();
+    args.unshift(null);
+
+    return function (err) {
+        if (err) return callback(err);
+        callback.apply(null, args);
+    }
+}
+
+
 module.exports = asynx
