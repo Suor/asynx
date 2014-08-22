@@ -2,9 +2,9 @@ var async = require('async'),
     asynx = Object.create(async);
 
 
-asynx.shift = function (error) {
+asynx.shift = function () {
     // slice off error and first result argument
-    var args = Array.prototype.slice.call(arguments, 2);
+    var args = Array.prototype.slice.call(arguments, 1);
     var callback = args.pop();
 
     callback.apply(null, args);
